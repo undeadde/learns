@@ -1,0 +1,51 @@
+#+title: python virtual environment
+
+* 简介
+  如果有多套python 开发环境，且包的管理和依赖都有差别的话，怎么管理和运行呢？
+virtualenv 能够创建多个独立的python虚拟运行环境，每个虚拟环境单独管理，使上
+面的问题很容易解决。
+　virtualenvwrapper 为 virtualenv 提供了更加便利的切换和管理虚拟环境。
+* install packages
+  以linux下的 ubuntu 版本为例, 在终端执行如下命令:
+** 安装virtualenv
+  #+BEGIN_SRC sh
+   $ sudo apt-get install virtualenv
+   $ sudo pip install virtualenv
+  #+END_SRC
+
+** 安装virtualenvwrapper 
+  #+BEGIN_SRC sh
+    $ pip install virtualenvwrapper
+  #+END_SRC
+* configure
+** virtualenvwrapper 执行的目录
+   修改~/.bash_profile或其它环境变量相关文件(如 .bashrc  或用 ZSH 之后的 .zshrc)，添加以下语句：
+
+   #+BEGIN_SRC sh
+     export WORKON_HOME=$HOME/.virtualenvs
+     export PROJECT_HOME=$HOME/workspace
+     source /usr/local/bin/virtualenvwrapper.sh
+   #+END_SRC
+** 配置生效
+
+   #+BEGIN_SRC sh
+     source ~/.bash_profile
+   #+END_SRC
+* use it
+| command             | fuction                    |
+|---------------------+----------------------------|
+| mkvirtualenv zqxt   | 创建运行环境zqxt           |
+| rmvirtualenv zqxt   | 删除运行环境zqxt           |
+| lsvirtualenv/workon | 列出所有的虚拟环境         |
+| cpvirtualenv        | 复制虚拟环境               |
+| isvirtualenv        | 列出可用的运行环境         |
+| lssitepackages      | 列出当前环境安装的包       |
+| workon zqxt         | 切换到zqxt工作环境         |
+| deactive            | 退出终端                   |
+| wipeenv　           | 移除所有的安装包           |
+|---------------------+----------------------------|
+| mkproject misc      | 创建misc项目和运行环境misc |
+| cdproject           | 切换工程目录               |
+
+
+

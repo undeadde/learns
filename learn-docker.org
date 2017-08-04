@@ -1,0 +1,25 @@
+#+TITLE: Docker 应用
+* Docker概念
+** Docker镜像
+   Docker镜像类似于虚拟机镜像，可以理解为一个面向Docker引擎的只读模板，包含了文件系统。
+** Docker容器
+   Docker容器类似一个轻量级沙盒，Docker利用容器来运行和隔离应用。
+** Docker仓库
+   Docker仓库类似于代码仓库，是Docker集中存放镜像文件的场所。
+* Docker安装
+** Ubuntu
+
+*** Ubuntu14.04及以上版本
+**** 安装包
+     $ sudo apt-get install -y docker.io
+**** 链接
+     $ sudo ln -sf /usr/bin/docker /usr/local/bin/docker 
+**** 
+     $ sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+*** Ubuntu14.04及以下版本
+*** Ubuntu17.04及以上版本
+**** 安装包
+     $ sudo apt-get install -y docker.io
+** CentOS
+** Windows
+** Mac OS
