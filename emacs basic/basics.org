@@ -1,0 +1,88 @@
+#+title: emacs基础
+
+* hello world
+  1. C-x b scratch 切换到*scratch*缓冲器
+  2. 如果当前的模式不是lisp-interaction-mode, M-x lisp-interaction切换模式到
+     elisp解释器模式
+  3. 键入 (message "hello world")
+  4. 在行尾括号后C-x C-e, 求值结果在mini-buffer中
+  注:在行尾括号后使用命令C-j, 求值结果另起一行显示
+     另外开可以使用命令M-x ielm, 打开elisp解释器
+
+* function
+  elisp 中定义一个函数是用这样的形式:
+
+  (defun function-name (arguments-list)
+    "document string"
+    body)
+
+  比如：
+
+ (defun hello-world (name)
+    "Say hello to user whose name is NAME."
+    (message "Hello, %s" name))
+
+  在 emacs 里，当光标处于一个函数名上时，可以用 C-h f 查看这个函数的文档。比如前面
+  这个函数，在 *Help* 缓冲区里的文档是：
+
+  hello-world is a Lisp function.
+  (hello-world name)
+
+  Say hello to user whose name is name.
+
+  要运行一个函数，最一般的方式是：
+
+  (function-name arguments-list)
+
+  比如前面这个函数：
+
+  (hello-world "Emacser")                 ; => "Hello, Emacser"
+
+* local variable
+  elisp 里可以用 let 和 let* 进行局部变量的绑定, let 使用的形式是：
+  (let (bindings)
+      body)
+
+  let* 和 let 的使用形式完全相同，唯一的区别是在 let* 声明中就能使用前面声明的变量，比如：
+
+  (defun circle-area (radix)
+     (let* ((pi 3.1415926)
+         (area (* pi radix radix)))
+         (message "直径为 %.2f 的圆面积是 %.2f" radix area)))
+* global variable
+
+  elisp 里的变量使用无需象 C 语言那样需要声明，你可以用 setq 直接对一个变量赋值。
+
+  (setq foo "I'm foo")                    ; => "I'm foo"
+  (message foo)                           ; => "I'm foo"
+
+  和函数一样，你可以用 C-h v 查看一个变量的文档。比如当光标在 foo 上时用 C-h v 时
+  ，文档是这样的：
+
+  foo's value is "I'm foo"
+
+  Documentation:
+  Not documented as a variable.
+
+  有一个特殊表达式（special form）defvar，它可以声明一个变量，一般的形式是：
+
+  (defvar variable-name value
+  "document string")
+
+  它与 setq 所不同的是，如果变量在声明之前，这个变量已经有一个值的话，用 defvar
+  声明的变量值不会改变成声明的那个值。另一个区别是 defvar 可以为变量提供文档字
+  符串，当变量是在文件中定义的话，C-h v 后能给出变量定义的位置。比如：
+
+  (defvar foo "Did I have a value?"
+  "A demo variable")                    ; => foo
+  foo                                     ; => "I'm foo"
+  (defvar bar "I'm bar"
+  "A demo variable named \"bar\"")      ; => bar
+  bar                                     ; => "I'm bar"
+
+  用 C-h v 查看 foo 的文档，可以看到它已经变成：
+
+  foo's value is "I'm foo"
+
+  Documentation:
+  A demo variable

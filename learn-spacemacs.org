@@ -396,6 +396,62 @@
      (configuration-layer/sync)
    #+END_SRC
 
+*** layers/+distributions/spacemacs-base/config.el
+**** 关闭备份文件 
+
+     #+BEGIN_SRC emacs-lisp
+       ;; don't create backup~ files
+       (setq make-backup-files nil)
+     #+END_SRC
+
+**** 清空*scratch*内容
+
+     #+BEGIN_SRC emacs-lisp
+       ;; scratch buffer empty
+       (setq initial-scratch-message nil)
+     #+END_SRC
+
+**** 函数 spacemacs-base/init-recentf ()
+     #+BEGIN_SRC emacs-lisp
+       (defun spacemacs-base/init-recentf ()
+         (use-package recentf
+           :defer t
+           :init
+           (progn
+             ;; lazy load recentf
+             (add-hook 'find-file-hook (lambda () (unless recentf-mode
+                                                    (recentf-mode)
+                                                    (recentf-track-opened-file))))
+             (setq recentf-save-file (concat spacemacs-cache-directory "recentf")
+                   recentf-max-saved-items 1000
+                   recentf-auto-cleanup 'never
+                   recentf-auto-save-timer (run-with-idle-timer 600 t
+                                                                'recentf-save-list)))
+     #+END_SRC
+
+**** 当前行高亮
+
+     #+BEGIN_SRC emacs-lisp
+       ;; highlight current line
+       (global-hl-line-mode t)
+     #+END_SRC
+
+**** 列号
+
+     #+BEGIN_SRC emacs-lisp
+       ;; Show column number in mode line
+       (setq column-number-mode t)
+     #+END_SRC
+
+**** 光标闪烁
+
+     #+BEGIN_SRC emacs-lisp
+       ;; no blink
+       (blink-cursor-mode 0)
+     #+END_SRC
+
+**** 
+*** 
 ** TODO 调用 spacemacs-buffer/display-startup-note
 
    #+BEGIN_SRC emacs-lisp
