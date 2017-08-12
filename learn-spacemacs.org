@@ -236,6 +236,17 @@
 *** 加载模块 core-dotspacemacs
 *** 加载模块 core-release-management
 *** 加载模块 core-auto-completion
+**** 定义变量
+     | 变量名                             | 值 |
+     |------------------------------------+----|
+     | spacemacs-default-company-backends |    |
+
+**** 定义宏
+     | 宏        | 值                      |   |
+     |-----------+-------------------------+---|
+     | spacemacs | defavr-company-backends |   |
+     |           |                         |   |
+
 *** 加载模块 core-jump
 *** 加载模块 core-display-init
 *** 加载模块 core-themes-support
@@ -359,6 +370,15 @@
         ;; install user default theme if required
         (when spacemacs--default-user-theme
           (spacemacs/load-theme spacemacs--default-user-theme 'install)))
+    #+END_SRC
+    
+    当spacemacs-debugp 为真，调用 spacemacs/init-debug
+    
+
+*** 定义函数 spacemacs//removes-gui-elements ()
+    关闭菜单栏，工具栏，滚动条。
+
+    #+BEGIN_SRC emacs-lisp
 
       (defun spacemacs//removes-gui-elements ()
         "Remove the menu bar, tool bar and scroll bars."
@@ -373,13 +393,30 @@
         ;; tooltips in echo-aera
         (when (and (fboundp 'tooltip-mode) (not (eq tooltip-mode -1)))
           (tooltip-mode -1)))
-    #+END_SRC
-    
-    当spacemacs-debugp 为真，调用 spacemacs/init-debug
-    
 
-*** TODO 定义函数 spacemacs//removes-gui-elements ()
+    #+END_SRC
+
 *** TODO 定义函数 spacemacs//setup-ido-vertical-mode ()
+    安装ido-vertical-mode
+
+    #+BEGIN_SRC emacs-lisp
+      (defun spacemacs//setup-ido-vertical-mode ()
+        "Setup `ido-vertical-mode'."
+        (require 'ido-vertical-mode)
+        (ido-vertical-mode t)
+        (add-hook
+         'ido-setup-hook
+         ;; think about hacking directly `ido-vertical-mode' source in libs instead.
+         (defun spacemacs//ido-vertical-natural-navigation ()
+           ;; more natural navigation keys: up, down to change current item
+           ;; left to go up dir
+           ;; right to open the selected item
+           (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+           (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+           (define-key ido-completion-map (kbd "<left>") 'ido-delete-backward-updir)
+           (define-key ido-completion-map (kbd "<right>") 'ido-exit-minibuffer))))
+    #+END_SRC
+
 *** TODO 定义函数 display-startup-echo-area-message ()
 *** TODO 定义函数 spacemacs/defer-until-after-user-config (func)
 *** TODO 定义函数 spacemacs/setup-startup-hook ()
