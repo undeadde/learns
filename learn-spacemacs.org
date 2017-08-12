@@ -1,19 +1,12 @@
 #+title: Spacemacs source code learn and how to configure it
 
 * 初始化
-**  垃圾回收机制设置内存为100M
 
-   #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold 100000000)
-   #+END_SRC
-
-
-** 版本变量定义
-
-   #+BEGIN_SRC emacs-lisp
-     (defconst spacemacs-version          "0.200.9" "Spacemacs version.")
-     (defconst spacemacs-emacs-min-version   "24.4" "Minimal version of Emacs.")
-   #+END_SRC
+** 定义常量
+     | 常量名                      | 值                                  |
+     |-----------------------------+-------------------------------------|
+     | spacemacs-version           | "0.200.9" "Spacemacs version."     |
+     | spacemacs-emacs-min-version | "24.4" "Minimal version of Emacs." |
 
 ** Emacs 版本判断, 必须大于24.4以上, 否则报错,  加载core/core-load-paths.el 文件 
 
@@ -28,6 +21,40 @@
 
    #+END_SRC
 
+** Emacs 内置功能
+
+*** 变量
+    | 变量名               | 默认          |        值 | 功能                       |
+    |----------------------+---------------+-----------+----------------------------|
+    | gc-cons-threshold    |               | 100000000 | 垃圾回收机制的内存         |
+    | emacs-version        | 25.2.50.2     |           | Emacs 的安装版本           |
+    | load-file-name       | nil           |           |                            |
+    | user-emacs-directory | "~/.emacs.d/" |           |                            |
+    | load-path            |               |           | 需要加载的文件路径查找列表 |
+*** 函数
+**** 加载技术 
+     | 函数名    | 目标                         |
+     |-----------+------------------------------|
+     | load-file | 加载指定的文件               |
+     | load      | 加载文件                     |
+     | require   | 加载包                       |
+     | auto-load | 只有当某个函数执行的时候加载 |
+**** 字符串操作
+     | 函数名 | 目标       |
+     |--------+------------|
+     | concat | 连接字符串 |
+     |        |            |
+**** 常用函数
+     | 函数名    | 目标                      |
+     |-----------+---------------------------|
+     | if        |                           |
+     | setq      | 给符号设置值              |
+     | not       | 对象为真返回t,否则返回nil |
+     | error     | 错误信息                  |
+     | defconst  | 定义一个常量              |
+     | version<= |                           |
+     | require   |                           |
+     |           |                           |
 ** core/core-load-path.el 文件解读
 *** 定义函数 add-to-load-path (dir)
     #+BEGIN_SRC emacs-lisp
@@ -43,138 +70,29 @@
           (add-to-load-path dir)))
     #+END_SRC
 
-*** 定义变量 spacemacs-start-dictionary
-    #+BEGIN_SRC emacs-lisp
-      (defvar spacemacs-start-directory
-        user-emacs-directory
-        "Spacemacs start directory.")
-    #+END_SRC
+*** 定义变量 
+    | 变量名                    | 默认                 | 值 | 功能              |
+    |---------------------------+----------------------+----+-------------------|
+    | spacemacs-start-directory | user-emacs-directory |    | spacemacs启动路径 |
+    |                           |                      |    |                   |
 
-*** 定义变量 spacemacs-core-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-core-directory
-        (expand-file-name (concat spacemacs-start-directory "core/"))
-        "Spacemacs core directory.")
-    #+END_SRC
-
-*** 定义变量 spacemacs-info-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-info-directory
-        (expand-file-name (concat spacemacs-core-directory "info/"))
-        "Spacemacs info files directory")
-    #+END_SRC
-
-*** 定义变量 spacemacs-release-notes-directory
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-release-notes-directory
-        (expand-file-name (concat spacemacs-info-directory "release-notes/"))
-        "Spacemacs release notes directory")
-    #+END_SRC
-
-*** 定义变量 spacemacs-banner-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-banner-directory
-        (expand-file-name (concat spacemacs-core-directory "banners/"))
-        "Spacemacs banners directory.")
-    #+END_SRC
-
-*** 定义变量 spacemacs-banners-official-png
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-banner-official-png
-        (expand-file-name (concat spacemacs-banner-directory "img/spacemacs.png"))
-        "Spacemacs official banner image.")
-    #+END_SRC
-
-*** 定义变量 spacemacs-badge-official-png
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-badge-official-png
-        (expand-file-name (concat spacemacs-banner-directory
-                                  "img/spacemacs-badge.png"))
-        "Spacemacs official badge image.")
-    #+END_SRC
-
-*** 定义变量 spacemacs-purple-heart-png
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-purple-heart-png
-        (expand-file-name (concat spacemacs-banner-directory "img/heart.png"))
-        "Purple heart emoji.")
-
-    #+END_SRC
-
-*** 定义变量 spacemacs-cache-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-cache-directory
-        (expand-file-name (concat user-emacs-directory ".cache/"))
-        "Spacemacs storage area for persistent files")
-
-    #+END_SRC
-
-*** 定义变量 spacemacs-auto-save-directory
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-auto-save-directory
-        (expand-file-name (concat spacemacs-cache-directory "auto-save/"))
-        "Spacemacs auto-save directory")
-        
-    #+END_SRC
-
-*** 定义变量spacemacs-docs-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-docs-directory
-        (expand-file-name (concat spacemacs-start-directory "doc/"))
-        "Spacemacs documentation directory.")
-
-    #+END_SRC
-
-***  定义变量spacemacs-news-directory 
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-news-directory
-        (expand-file-name (concat spacemacs-start-directory "news/"))
-        "Spacemacs News directory.")
-    #+END_SRC
-
-*** 定义变量spacemacs-assets-directory
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-assets-directory
-        (expand-file-name (concat spacemacs-start-directory "assets/"))
-        "Spacemacs assets directory.")
-
-    #+END_SRC
-
-*** 定义变量spacemacs-test-directory
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst spacemacs-test-directory
-        (expand-file-name (concat spacemacs-start-directory "tests/"))
-        "Spacemacs tests directory.")
-    #+END_SRC
-
-*** 定义常量 user-home-directory
-
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst user-home-directory
-        (expand-file-name "~/")
-        "User home directory (~/).")
-    #+END_SRC
-
-*** 定义常量 pcache-directory
-
-    #+BEGIN_SRC emacs-lisp
-      (defconst pcache-directory
-        (concat spacemacs-cache-directory "pcache/"))
-    #+END_SRC
+*** 定义常量
+    | 变量名                            | 默认                                         | 值 | 功能 |
+    |-----------------------------------+----------------------------------------------+----+------|
+    | spacemacs-core-directory          | "~/.emacs.d/core/"                           |    |      |
+    | spacemacs-info-directory          | "~/.emacs.d/info/"                           |    |      |
+    | spacemacs-release-notes-directory | "~/.emacs.d/release-notes/"                  |    |      |
+    | spacemacs-banner-directory        | "~/.emacs.d/banners/"                        |    |      |
+    | spacemacs-banner-official-png     | "~/.emacs.d/banners/img/spacemacs.png"       |    |      |
+    | spacemacs-badge-official-png      | "~/.emacs.d/banners/img/spacemacs-badge.png" |    |      |
+    | spacemacs-purple-heart-png        | "~/.emacs.d/banners/img/heart.png"           |    |      |
+    | spacemacs-cache-directory         | "~/.emacs.d/.cache/"                         |    |      |
+    | spacemacs-auto-save-directory     | "~/.emacs.d/.cache/auto-save/"               |    |      |
+    | spacemacs-news-directory          | "~/.emacs.d/news/"                           |    |      |
+    | spacemacs-assets-directory        | "~/.emacs.d/assets/"                         |    |      |
+    | spacemacs-test-directory          | "~/.emacs.d/tests/"                          |    |      |
+    | user-home-directory               | "~/"                                         |    |      |
+    | pcache-directory                  | "~/.emacs.d/.cache/pcache/"                  |    |      |
 
 *** 如果不存在spacemacs-cache-directory,创建目录
 
@@ -184,21 +102,15 @@
     #+END_SRC
 
 *** 加载部分路径
+    | load-path 路径列表                      |
+    |-----------------------------------------|
+    | "~/.emacs.d/core/"                      |
+    | "~/.emacs.d/core/libs/"                 |
+    | "~/.emacs.d/core/libs/spacemacs-theme/" |
 
-    #+BEGIN_SRC emacs-lisp
-      ;; load paths
-      mapc 'add-to-load-path
-      `(
-        ,spacemacs-core-directory
-        ,(concat spacemacs-core-directory "libs/")
-        ,(concat spacemacs-core-directory "libs/spacemacs-theme/")
-        ;; ,(concat spacemacs-core-directory "aprilfool/")
-        ))
-
-      ;; themes
-      (add-to-list 'custom-theme-load-path (concat spacemacs-core-directory
-                                                   "libs/spacemacs-theme/"))
-    #+END_SRC
+    | custom-theme-load-path 路径列表 |
+    |---------------------------------|
+    | "~./emacs.d/core/libs/spacemacs-theme/" |
 
 ** TODO 加载 core-spacemacs 模块
 
@@ -223,17 +135,111 @@
      显示spacemacs的版本，并且把字符串拷贝到内存中
 **** 加载模块 profile
 **** 定义变量
-    | 变量名                              | 值   |
-    |-------------------------------------+------|
-    | spacemacs-debug-timer-threshold     | 0.15 |
-    | spacemacs-debugp                    | nil  |
-    | spacemacs-debug-with-profile        | nil  |
-    | spacemacs-debug-with-timed-required | nil  |
-    | spacemacs-debug-with-adv-timers     | nil  |
+     | 变量名                              | 值   |
+     |-------------------------------------+------|
+     | spacemacs-debug-timer-threshold     | 0.15 |
+     | spacemacs-debugp                    | nil  |
+     | spacemacs-debug-with-profile        | nil  |
+     | spacemacs-debug-with-timed-required | nil  |
+     | spacemacs-debug-with-adv-timers     | nil  |
 **** 定义函数spacemacs//load-timer (origfunc &rest args)
 
 *** 加载模块 core-command-line
 *** 加载模块 core-dotspacemacs
+**** 定义常量
+     | 变量名                           | 值                       |
+     |----------------------------------+--------------------------|
+     | dotspacemacs-template-directory  | .emacs.d/core/templates/ |
+     | dotspacemacs-test-results-buffer | *dotfile-test-results*   |
+****  定义变量
+     | 变量名                                          | 值                                        |
+     |-------------------------------------------------+-------------------------------------------|
+     | dotspacemacs-distribution                       | spacemacs                                 |
+     | dotspacemacs-elpa-https                         | t                                         |
+     | dotspacemacs-elpa-timeout                       | 5                                         |
+     | dotspacemacs-elpa-subdirectory                  | nil                                       |
+     | dotspacemacs-configuration-layer-path           | '()                                       |
+     | dotspacemacs-enable-lazy-installation           | unused                                    |
+     | dotspacemacs-ask-for-lazy-installation          | t                                         |
+     | dotspacemacs-additional-packages                | '()                                       |
+     | dotspacemacs-editing-style                      | vim                                       |
+     | dotspacemacs-startup-banner                     | official                                  |
+     | dotspacemacs-scratch-mode                       | text-mode                                 |
+     | dotspacemacs-check-for-update                   | nil                                       |
+     | dotspacemacs-configuration-layers               | emacs-lisp                                |
+     | dotspacemacs--configuration-layers-save         | nil                                       |
+     | dotspacemacs-themes                             | '(spacemacs-dark spacemacs-light)         |
+     | dotspacemacs-colorize-cursor-according-to-state | t                                         |
+     | dotspacemacs-leader-key                         | "SPC"                                     |
+     | dotspacemacs-emacs-leader-key                   | "M-m"                                     |
+     | dotspacemacs-major-mode-leader-key              | ","                                       |
+     | dotspacemacs-ex-command-key                     | ":"                                       |
+     | dotspacemacs-command-key                        | "SPC"                                     |
+     | dotspacemacs-distinguish-gui-tab                | nil                                       |
+     | dotspacemacs-remap-Y-to-y$                      | nil                                       |
+     | dotspacemacs-retain-visual-state-on-shift       | t                                         |
+     |-------------------------------------------------+-------------------------------------------|
+     | dotspacemacs-default-font                       | '("Source Code Pro"                       |
+     |                                                 | :size 13                                  |
+     |                                                 | :weight normal                            |
+     |                                                 | :powerline-scale 1.1                      |
+     |                                                 | )                                         |
+     |-------------------------------------------------+-------------------------------------------|
+     | dotspacemacs-visual-line-move-text              | nil                                       |
+     | dotspacemacs-ex-substitute-global               | nil                                       |
+     | dotspacemacs-folding-method                     | 'evil                                     |
+     | dotspacemacs-default-layout-name                | "Default"                                 |
+     | dotspacemacs-display-default-layout             | nil                                       |
+     | dotspacemacs-auto-resume-layouts                | nil                                       |
+     | dotspacemacs-max-rollback-slots                 | 5                                         |
+     | dotspacemacs-helm-resize                        | nil                                       |
+     | dotspacemacs-helm-no-header                     | nil                                       |
+     | dotspacemacs-helm-position                      | 'bottom                                   |
+     | dotspacemacs-helm-use-fuzzy                     | 'always                                   |
+     | dotspacemacs-large-file-size                    | 1                                         |
+     | dotspacemacs-auto-save-file-location            | 'cache                                    |
+     | dotspacemacs-enable-paste-transient-state       | nil                                       |
+     | dotspacemacs-enable-paste-micro-state           | dotspacemacs-enable-paste-transient-state |
+     | dotspacemacs-which-key-position                 | 'bottom                                   |
+     | dotspacemacs-loading-process-bar                | t                                         |
+     | dotspacemacs-fullscreen-at-startup              | nil                                       |
+     | dotspacemacs-fullscreen-use-no-native           | nil                                       |
+     | dotspacemacs-maximized-at-startup               | nil                                       |
+     | dotspacemacs-activate-transparency              | 90                                        |
+     | dotspacemacs-inactive-transparency              | 90                                        |
+     | dotspacemacs-show-transient-state-title         | t                                         |
+     | dotspacemacs-show-transient-state-color-guide   | t                                         |
+     | dotspacemacs-mode-line-unicode-symbols          | t                                         |
+     | dotspacemacs-smooth-scrolling                   | t                                         |
+     | dotspacemacs-line-numbers                       | nil                                       |
+     | dotspacemacs-persistent-server                  | nil                                       |
+     | dotspacemacs-smartparens-strict-mode            | nil                                       |
+     | dotspacemacs-smart-close-parenthesis            | nil                                       |
+     | dotspacemacs-highlight-delimiters               | 'all                                      |
+     | dotspacemacs-whitespace-cleanup                 | nil                                       |
+     | dotspacemacs-search-tools                       | '("ag" "pt" "ack" "grep")                 |
+     | dotspacemacs-default-package-repository         | 'melpa-stable                             |
+     | dotspacemacs-startup-lists                      | '((recents . 5) (projects . 7))           |
+     | dotspacemacs-startup-buffer-responsive          | t                                         |
+     | dotspacemacs-excluded-packages                  | '()                                       |
+     | dotspacemacs-frozen-packages                    | '()                                       |
+     | dotspacemacs-mode                               | 'emacs-lisp-mode                          |
+**** 函数　dotspacemacs//check-layers-changed() 
+     如果dotspacemacs的层改变的话，打印告警消息
+     #+BEGIN_SRC emacs-lisp
+       (defun dotspacemacs//check-layers-changed ()
+         "Check if the value of `dotspacemacs-configuration-layers'
+       changed, and issue a warning if it did."
+         (unless (eq dotspacemacs-configuration-layers
+                     dotspacemacs--configuration-layers-saved)
+           (spacemacs-buffer/warning
+            "`dotspacemacs-configuration-layers' was changed outside of `dotspacemacs/layers'.")))
+
+       (add-hook 'spacemacs-post-user-config-hook
+                 'dotspacemacs//check-layers-changed)
+     #+END_SRC
+
+
 *** 加载模块 core-release-management
 *** 加载模块 core-auto-completion
 **** 定义变量
@@ -252,6 +258,22 @@
 *** 加载模块 core-themes-support
 *** 加载模块 core-fonts-support
 *** 加载模块 core-spacemacs-buffer
+**** 常量定义
+     | 常量名                                        | 值                                      |
+     |-----------------------------------------------+-----------------------------------------|
+     | spacemacs-buffer-name                         | "*sapcemacs*"                           |
+     | spacemacs-buffer-logo-tile                    | "[S P A C E M A C E S]"                 |
+     | spacemacs-buffer-buttons-startup-lists-offset | 25                                      |
+     | spacemacs-buffer--window-width                | 80                                      |
+     | spacemacs-buffer--cache-file                  | "~/.emacs.d/.cache/spacemacs-buffer.el" |
+**** 定义变量 
+     | 常量名                                 | 默认值 |
+     |----------------------------------------+--------|
+     | spacemacs-buffer-startup-lists-length  | 20     |
+     | spacemacs-buffer--release-note-version | nil    |
+     | spacemacs-buffer--note-widgets         | nil    |
+     | spacemacs-buffer--current-note-type    |        |
+
 *** 加载模块 core-keybindings
 *** 加载模块 core-toggle
 *** 加载模块 core-funcs
@@ -278,13 +300,17 @@
     #+BEGIN_SRC emacs-lisp
       (defun spacemacs/init ()
         "Perform startup initialization."
+        ;; 当spacemacs-debugp 为真，调用 spacemacs/init-debug
         (when spacemacs-debugp (spacemacs/init-debug))
+        ;; 当函数被重写后，不写警告信息到 *Messages*
         ;; silence ad-handle-definition about advised functions getting redefined
         (setq ad-redefinition-action 'accept)
+        ;; 平滑的用户体验，副模式关闭行模式，关闭gui部分套件，设置ido垂直模式
         ;; this is for a smoother UX at startup (i.e. less graphical glitches)
         (hidden-mode-line-mode)
         (spacemacs//removes-gui-elements)
         (spacemacs//setup-ido-vertical-mode)
+        ;; 明确设置编码为utf-8以避免其他系统讨厌的提示
         ;; explicitly set the prefered coding systems to avoid annoying prompt
         ;; from emacs (especially on Microsoft Windows)
         (prefer-coding-system 'utf-8)
@@ -295,6 +321,7 @@
                       ;; overlapped in terminal mode. The GUI specific `<C-i>' is used
                       ;; instead.
                       evil-want-C-i-jump nil)
+        ;; 
         (dotspacemacs/load-file)
         (require 'core-configuration-layer)
         (dotspacemacs|call-func dotspacemacs/init "Calling dotfile init...")
@@ -395,10 +422,40 @@
           (tooltip-mode -1)))
 
     #+END_SRC
+**** dotspacemacs/load-file()
 
-*** TODO 定义函数 spacemacs//setup-ido-vertical-mode ()
-    安装ido-vertical-mode
+     #+BEGIN_SRC emacs-lisp
+       (defun dotspacemacs/load-file ()
+         "Load ~/.spacemacs if it exists."
+         (let ((dotspacemacs (dotspacemacs/location)))
+           (if (file-exists-p dotspacemacs)
+               (unless (with-demoted-errors "Error loading .spacemacs: %S"
+                         (load dotspacemacs))
+                 (dotspacemacs/safe-load)))))
+     #+END_SRC
+*** 定义函数 spacemacs//removes-gui-elements ()
 
+    #+BEGIN_SRC emacs-lisp
+      (defun spacemacs//removes-gui-elements ()
+        "Remove the menu bar, tool bar and scroll bars."
+        ;; removes the GUI elements
+        ;; 工具栏关闭
+        (when (and (fboundp 'tool-bar-mode) (not (eq tool-bar-mode -1)))
+          (tool-bar-mode -1))
+        ;; 菜单栏关闭
+        (unless (spacemacs/window-system-is-mac)
+          (when (and (fboundp 'menu-bar-mode) (not (eq menu-bar-mode -1)))
+            (menu-bar-mode -1)))
+         ;; 滚动条模式关闭　
+         (when (and (fboundp 'scroll-bar-mode) (not (eq scroll-bar-mode -1)))
+           (scroll-bar-mode -1))
+         ;; tooltips in echo-aera
+         ;; 关闭提示模式
+         (when (and (fboundp 'tooltip-mode) (not (eq tooltip-mode -1)))
+           (tooltip-mode -1)))
+    #+END_SRC
+
+*** 定义函数 spacemacs//setup-ido-vertical-mode ()
     #+BEGIN_SRC emacs-lisp
       (defun spacemacs//setup-ido-vertical-mode ()
         "Setup `ido-vertical-mode'."
@@ -416,10 +473,38 @@
            (define-key ido-completion-map (kbd "<left>") 'ido-delete-backward-updir)
            (define-key ido-completion-map (kbd "<right>") 'ido-exit-minibuffer))))
     #+END_SRC
-
 *** TODO 定义函数 display-startup-echo-area-message ()
 *** TODO 定义函数 spacemacs/defer-until-after-user-config (func)
-*** TODO 定义函数 spacemacs/setup-startup-hook ()
+*** 定义函数 spacemacs/setup-startup-hook ()
+
+    #+BEGIN_SRC emacs-lisp
+      (defun spacemacs/setup-startup-hook ()
+        "Add post init processing."
+        (add-hook
+         'emacs-startup-hook
+         (defun spacemacs/startup-hook ()
+           ;; This is set here so that emacsclient will show the startup buffer (and
+           ;; so that it can be changed in user-config if necessary). It was set to
+           ;; nil earlier in the startup process to properly handle command line
+           ;; arguments.
+           (setq initial-buffer-choice (lambda () (get-buffer spacemacs-buffer-name)))
+           ;; Ultimate configuration decisions are given to the user who can defined
+           ;; them in his/her ~/.spacemacs file
+           (dotspacemacs|call-func dotspacemacs/user-config
+                                   "Calling dotfile user config...")
+           (run-hooks 'spacemacs-post-user-config-hook)
+           (setq spacemacs-post-user-config-hook-run t)
+           (when (fboundp dotspacemacs-scratch-mode)
+             (with-current-buffer "*scratch*"
+               (funcall dotspacemacs-scratch-mode)))
+           (configuration-layer/display-summary emacs-start-time)
+           (spacemacs-buffer//startup-hook)
+           (spacemacs/check-for-new-version nil spacemacs-version-check-interval)
+           (setq spacemacs-initialized t))))
+
+
+    #+END_SRC
+
 ** TODO 调用 spacemacs/init
 
    #+BEGIN_SRC emacs-lisp
@@ -433,6 +518,62 @@
      (configuration-layer/sync)
    #+END_SRC
 
+*** layers/+distributions/spacemacs-base/config.el
+**** 关闭备份文件 
+
+     #+BEGIN_SRC emacs-lisp
+       ;; don't create backup~ files
+       (setq make-backup-files nil)
+     #+END_SRC
+
+**** 清空*scratch*内容
+
+     #+BEGIN_SRC emacs-lisp
+       ;; scratch buffer empty
+       (setq initial-scratch-message nil)
+     #+END_SRC
+
+**** 函数 spacemacs-base/init-recentf ()
+     #+BEGIN_SRC emacs-lisp
+       (defun spacemacs-base/init-recentf ()
+         (use-package recentf
+           :defer t
+           :init
+           (progn
+             ;; lazy load recentf
+             (add-hook 'find-file-hook (lambda () (unless recentf-mode
+                                                    (recentf-mode)
+                                                    (recentf-track-opened-file))))
+             (setq recentf-save-file (concat spacemacs-cache-directory "recentf")
+                   recentf-max-saved-items 1000
+                   recentf-auto-cleanup 'never
+                   recentf-auto-save-timer (run-with-idle-timer 600 t
+                                                                'recentf-save-list)))
+     #+END_SRC
+
+**** 当前行高亮
+
+     #+BEGIN_SRC emacs-lisp
+       ;; highlight current line
+       (global-hl-line-mode t)
+     #+END_SRC
+
+**** 列号
+
+     #+BEGIN_SRC emacs-lisp
+       ;; Show column number in mode line
+       (setq column-number-mode t)
+     #+END_SRC
+
+**** 光标闪烁
+
+     #+BEGIN_SRC emacs-lisp
+       ;; no blink
+       (blink-cursor-mode 0)
+     #+END_SRC
+
+**** 
+*** 
 ** TODO 调用 spacemacs-buffer/display-startup-note
 
    #+BEGIN_SRC emacs-lisp
@@ -459,3 +600,4 @@
    #+BEGIN_SRC emacs-lisp
      (unless (server-running-p) (server-start)))
    #+END_SRC
+   
