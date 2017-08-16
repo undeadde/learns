@@ -30,7 +30,8 @@
     | load-file-name       | nil           |           |                            |
     | user-emacs-directory | "~/.emacs.d/" |           |                            |
     | load-path            |               |           | 需要加载的文件路径查找列表 |
-    | message-log-max      | 1000          | 16384     |                            |
+    | message-log-max      | 1000          |     16384 |                            |
+    |                      |               |           |                            |
 *** 函数
 **** 加载技术 
      | 函数名    | 目标                         |
@@ -45,36 +46,34 @@
      | concat | 连接字符串 |
      |        |            |
 **** 常用函数
-<<<<<<< HEAD
-     | 函数名           | 目标                      |
-     |------------------+---------------------------|
-     | if               |                           |
-     | setq             | 给符号设置值              |
-     | not              | 对象为真返回t,否则返回nil |
-     | error            | 错误信息                  |
-     | defconst         | 定义一个常量              |
-     | version<=        |                           |
-     | require          |                           |
-     | add-to-list      |                           |
-     | file-exists-p    |                           |
-     | defun            |                           |
-     | when             |                           |
-     | defvar           |                           |
-     | unless           |                           |
-     | make-directory   |                           |
-     | expand-file-name |                           |
-     | mapc             |                           |
-=======
-     | 函数名    | 目标                      |
-     |-----------+---------------------------|
-     | if        |                           |
-     | setq      | 给符号设置值              |
-     | not       | 对象为真返回t,否则返回nil |
-     | error     | 错误信息                  |
-     | defconst  | 定义一个常量              |
-     | version<= |                           |
-     | require   |                           |
-     | dolist    | 循环操作列表              |
+     | 函数名              | 目标                              |
+     |---------------------+-----------------------------------|
+     | if                  |                                   |
+     | setq                | 给符号设置值                      |
+     | not                 | 对象为真返回t,否则返回nil         |
+     | error               | 错误信息                          |
+     | defconst            | 定义一个常量                      |
+     | version<=           |                                   |
+     | require             |                                   |
+     | add-to-list         |                                   |
+     | file-exists-p       |                                   |
+     | defun               |                                   |
+     | when                |                                   |
+     | defvar              |                                   |
+     | unless              | 如果条件为nil，执行后边的函数     |
+     | make-directory      |                                   |
+     | expand-file-name    |                                   |
+     | mapc                |                                   |
+     | with-current-buffer | 临时执行当前的buffer中并返回格式  |
+     | window-buffer       | 返回窗口的buffer                  |
+     | window-list         | 列举当前frame中的window           |
+     | window-width        | 窗口的文本宽度                    |
+     | make-glyph-code     | 字符样式替换                      |
+     | vconcat             | 连接所有的参数组成一个vector      |
+     | make-list           | 创建一个列表                      |
+     | elt                 | 返回序列的第N个元素               |
+     | aset                | 保存新的列表中的第N个元素到数组中 |
+     |                     |                                   |
 **** 常见的宏
      | 函数名            | 功能               | 注释                                                                       |
      |-------------------+--------------------+----------------------------------------------------------------------------|
@@ -83,7 +82,6 @@
      | defface           | 定义可配置组的界面 |                                                                            | | define-minor-mode | 定义一个副模式     |                                                                            |
      |                   |                    |                                                                            |
 
->>>>>>> f5cd3107b55c7dfddf0bdf0f448a7b76a2a1aef4
 ** core/core-load-path.el 文件解读
 *** 定义函数 add-to-load-path (dir)
     #+BEGIN_SRC emacs-lisp
@@ -176,19 +174,22 @@
       |------------------+--------------------------------------------------------------|
       | page-break-lines | '((t :inherit font-lock-comment-face :bold nil :italic nil)) |
 **** 定义模式
-      | 名                    | 值 |
-      |-----------------------+----|
-      | page-break-lines-mode |    |
+      | 名                           | 值                                                |
+      |------------------------------+---------------------------------------------------|
+      | page-break-lines-mode        |                                                   |
+      | global-page-break-lines-mode | page-break-lines-mode page-break-lines-mode-maybe |
 **** 定义函数
      | 函数名                                          | 功能             |
      |-------------------------------------------------+------------------|
      | turn-on-page-break-lines-mode ()                | 打开行分割页模式 |
      | turn-off-page-break-lines-mode ()               | 关闭行分割页模式 |
      | page-break-lines--update-display-table (window) |                  |
+     | page-break-lines-mode-maybe                     |                  |
 
 **** 定义变量
-     | 变量名                              | 值   |
-     |-------------------------------------+------|
+     | 变量名               | 值 | 含义 |
+     |----------------------+----+------|
+     | buffer-display-table |    | 控制当前buffer显示的显示表 |
 *** TODO 加载模块 core-debug
 **** 定义函数 spacemacs/display-and-copy-version ()
      显示spacemacs的版本，并且把字符串拷贝到内存中
