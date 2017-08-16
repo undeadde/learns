@@ -279,6 +279,17 @@
 
 *** 加载模块 core-release-management
 *** 加载模块 core-auto-completion
+**** 定义变量
+     | 变量名                             | 值 |
+     |------------------------------------+----|
+     | spacemacs-default-company-backends |    |
+
+**** 定义宏
+     | 宏        | 值                      |   |
+     |-----------+-------------------------+---|
+     | spacemacs | defavr-company-backends |   |
+     |           |                         |   |
+
 *** 加载模块 core-jump
 *** 加载模块 core-display-init
 *** 加载模块 core-themes-support
@@ -423,6 +434,15 @@
         ;; install user default theme if required
         (when spacemacs--default-user-theme
           (spacemacs/load-theme spacemacs--default-user-theme 'install)))
+    #+END_SRC
+    
+    当spacemacs-debugp 为真，调用 spacemacs/init-debug
+    
+
+*** 定义函数 spacemacs//removes-gui-elements ()
+    关闭菜单栏，工具栏，滚动条。
+
+    #+BEGIN_SRC emacs-lisp
 
       (defun spacemacs//removes-gui-elements ()
         "Remove the menu bar, tool bar and scroll bars."
@@ -437,6 +457,7 @@
         ;; tooltips in echo-aera
         (when (and (fboundp 'tooltip-mode) (not (eq tooltip-mode -1)))
           (tooltip-mode -1)))
+
     #+END_SRC
 **** dotspacemacs/load-file()
 

@@ -1,0 +1,5 @@
+#+title: the editor of lift time
+# author:
+# Sponsored By thoughtbot
+
+This is the last version of a talk that I acctually gave you last year
