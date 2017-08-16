@@ -31,6 +31,7 @@
     | load-file-name       | nil           |           |                            |
     | user-emacs-directory | "~/.emacs.d/" |           |                            |
     | load-path            |               |           | 需要加载的文件路径查找列表 |
+    | message-log-max      | 1000          | 16384     |                            |
 *** 函数
 **** 加载技术 
      | 函数名    | 目标                         |
@@ -45,16 +46,24 @@
      | concat | 连接字符串 |
      |        |            |
 **** 常用函数
-     | 函数名    | 目标                      |
-     |-----------+---------------------------|
-     | if        |                           |
-     | setq      | 给符号设置值              |
-     | not       | 对象为真返回t,否则返回nil |
-     | error     | 错误信息                  |
-     | defconst  | 定义一个常量              |
-     | version<= |                           |
-     | require   |                           |
-     |           |                           |
+     | 函数名           | 目标                      |
+     |------------------+---------------------------|
+     | if               |                           |
+     | setq             | 给符号设置值              |
+     | not              | 对象为真返回t,否则返回nil |
+     | error            | 错误信息                  |
+     | defconst         | 定义一个常量              |
+     | version<=        |                           |
+     | require          |                           |
+     | add-to-list      |                           |
+     | file-exists-p    |                           |
+     | defun            |                           |
+     | when             |                           |
+     | defvar           |                           |
+     | unless           |                           |
+     | make-directory   |                           |
+     | expand-file-name |                           |
+     | mapc             |                           |
 ** core/core-load-path.el 文件解读
 *** 定义函数 add-to-load-path (dir)
     #+BEGIN_SRC emacs-lisp
@@ -112,24 +121,35 @@
     |---------------------------------|
     | "~./emacs.d/core/libs/spacemacs-theme/" |
 
-** TODO 加载 core-spacemacs 模块
+** 加载 core-spacemacs 模块
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'core-spacemacs)
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (require 'core-spacemacs)
+    #+END_SRC
 
 *** 设置日志大小
     #+BEGIN_SRC emacs-lisp
     (setq message-log-max 16384)
     #+END_SRC
 
-*** 定义常量 emacs-start-time
-    #+BEGIN_SRC 
-    (defconst emacs-start-time (current-time))
-    #+END_SRC
+*** 定义常量
+    | 变量名           | 默认         | 值 | 功能 |
+    |------------------+--------------+----+------|
+    | emacs-start-time | (current-time) |    |      |
 
 *** 加载模块 subr-x
 *** 加载模块 page-break-lines
+**** 加载模块 cl-lib
+**** 加载模块 package
+**** 加载模块 lisp-mnt
+**** 加载模块 json
+**** 定义常量
+     | 变量名           | 默认         | 值 | 功能 |
+     |------------------+--------------+----+------|
+     | package-build--melpa-base |  |    |      |
+
+
+
 *** TODO 加载模块 core-debug
 **** 定义函数 spacemacs/display-and-copy-version ()
      显示spacemacs的版本，并且把字符串拷贝到内存中
@@ -510,7 +530,7 @@
    #+BEGIN_SRC emacs-lisp
      (spacemacs/init)
    #+END_SRC
- 
+   
 ** TODO 调用 configuration-layer/sync　
 
    #+BEGIN_SRC emacs-lisp
@@ -572,8 +592,6 @@
        (blink-cursor-mode 0)
      #+END_SRC
 
-**** 
-*** 
 ** TODO 调用 spacemacs-buffer/display-startup-note
 
    #+BEGIN_SRC emacs-lisp
