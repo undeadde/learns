@@ -22,7 +22,6 @@
    #+END_SRC
 
 ** Emacs 内置功能
-
 *** 变量
     | 变量名               | 默认          |        值 | 功能                       |
     |----------------------+---------------+-----------+----------------------------|
@@ -46,6 +45,7 @@
      | concat | 连接字符串 |
      |        |            |
 **** 常用函数
+<<<<<<< HEAD
      | 函数名           | 目标                      |
      |------------------+---------------------------|
      | if               |                           |
@@ -64,6 +64,26 @@
      | make-directory   |                           |
      | expand-file-name |                           |
      | mapc             |                           |
+=======
+     | 函数名    | 目标                      |
+     |-----------+---------------------------|
+     | if        |                           |
+     | setq      | 给符号设置值              |
+     | not       | 对象为真返回t,否则返回nil |
+     | error     | 错误信息                  |
+     | defconst  | 定义一个常量              |
+     | version<= |                           |
+     | require   |                           |
+     | dolist    | 循环操作列表              |
+**** 常见的宏
+     | 函数名            | 功能               | 注释                                                                       |
+     |-------------------+--------------------+----------------------------------------------------------------------------|
+     | defgroup          | 定义可配置组       | 使用M-x customize显示所有的可定制化组，:group 是组的关键字 :prefix是组前缀 |
+     | defcustom         | 定义可配置组的变量 | :type 类型 :group　可配置组的组名                                          |
+     | defface           | 定义可配置组的界面 |                                                                            | | define-minor-mode | 定义一个副模式     |                                                                            |
+     |                   |                    |                                                                            |
+
+>>>>>>> f5cd3107b55c7dfddf0bdf0f448a7b76a2a1aef4
 ** core/core-load-path.el 文件解读
 *** 定义函数 add-to-load-path (dir)
     #+BEGIN_SRC emacs-lisp
@@ -139,17 +159,36 @@
 
 *** 加载模块 subr-x
 *** 加载模块 page-break-lines
-**** 加载模块 cl-lib
-**** 加载模块 package
-**** 加载模块 lisp-mnt
-**** 加载模块 json
-**** 定义常量
-     | 变量名           | 默认         | 值 | 功能 |
-     |------------------+--------------+----+------|
-     | package-build--melpa-base |  |    |      |
+**** 定义可配置组
+***** 配置组名
+      | 组名             | 注释 |
+      |------------------+------|
+      | page-break-lines |      |
+***** 配置组内变量
+      | 变量名                   | 值                                                                               |
+      |--------------------------+----------------------------------------------------------------------------------|
+      | page-break-lines-char    | ?-                                                                               |
+      | page-break-lines-modes   | " PgLn"                                                                          |
+      | page-break-lines-lighter | '(emacs-lisp-mode lisp-mode scheme-mode compilation-mode outline-mode help-mode) |
+     
+***** 配置界面 
+      | 名               | 值                                                           |
+      |------------------+--------------------------------------------------------------|
+      | page-break-lines | '((t :inherit font-lock-comment-face :bold nil :italic nil)) |
+**** 定义模式
+      | 名                    | 值 |
+      |-----------------------+----|
+      | page-break-lines-mode |    |
+**** 定义函数
+     | 函数名                                          | 功能             |
+     |-------------------------------------------------+------------------|
+     | turn-on-page-break-lines-mode ()                | 打开行分割页模式 |
+     | turn-off-page-break-lines-mode ()               | 关闭行分割页模式 |
+     | page-break-lines--update-display-table (window) |                  |
 
-
-
+**** 定义变量
+     | 变量名                              | 值   |
+     |-------------------------------------+------|
 *** TODO 加载模块 core-debug
 **** 定义函数 spacemacs/display-and-copy-version ()
      显示spacemacs的版本，并且把字符串拷贝到内存中
