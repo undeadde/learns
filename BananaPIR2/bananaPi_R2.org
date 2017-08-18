@@ -1,0 +1,32 @@
+#+title: How to Use Banana PI BPI-R2-V1
+ 
+* boot
+Obviously, first of all make sure you've got the second preview release correctly written to an SD card and inserted into the board.
+首先最重要的是保证你获取到的发布的第二版写入sd卡, 并插入单板.
+I contacted support, you need to hold down the power button for ten seconds for it to boot. For whatever reason, if you just press it, or hold it for any shorter length of time, it just turns off.
+我已经联系技术支持, 为了启动系统你需要保持按下电源键10s. 无论什么原因, 你都必须按住它, 或者你按住这个键不到时间, 它将会关闭.
+The running status of the LEDS is bright green at the front with a dim red next to it and at the back of the board next to the HDMI socket, a red LED.
+这些LED的运行状态是绿灯亮,红灯灭.最后变得灯标识HDMI插槽的状态.
+There's a group of components on the back of the board that are positioned in such a way that while holding the board to plug in the power, or to pick it up perhaps - it shorts some contacts - this leaves the board in a kind of 'crashed' state - if you unplug the power, wait a
+moment, and plug it back in, being careful not to touch the board - it'll be in a normal bootable state.
+在板子后边有一组部件, 当电源插入板子,或者拔掉电源-它有短时间的链接-这个板子是在'crashed'状态-如果你拔掉电源,等待一会,然后插入, 保持小心,不要碰到板子-否则它将会不能启动.
+hold down the power button for ten seconds etc
+继续第二次按下电源键.
+the screen goes white - then will either go to a linux post, or you'll get no HDMI signal - if you press the reset buton, the RGB lights on the front light up just like when you press the power button, the board resets and it consistently works correctly if it didn't before.
+然后屏幕会变白 - 然后获取进入linux,或者你将会得到一个没有HDMI信号 - 如果你按下重启键, RGB灯亮,就像你按下电源键, 板子重启直到工作正常.
+I've been very methodical, so if your experiences differ let me know so we can establish the normal operation of this board so any problems become apparent.
+我很有条理,所以如果你有任何不同的经验请告诉我, 我们可以创建正常的板子操作而不会有任何明显的问题.
+For example, after booting, there doesn't appear to be a registered audio device for the HDMI audio output for me - perhaps this is a pending driver that wasn't mentioned that's currently not working.
+举个例子, 在booting后, 没有注册任何的语音设备到HDMI语音输出给我 - 可能这是一个挂起的驱动, 他没有提及, 并且当前不工作.
+Either that or there's a potentially problem with my board or cables.
+在我的板子上或这纵向,上述的例子或者任何潜在的问题.
+Also, whenever I shutdown the board, the lights just stay on - pressing the power button after it's on, or holding it down for any length of time - does nothing - you have to unplug the power and plug it back in to get back to the 'lights off' state. The reset works fine - so perhaps
+the power button requires something additional to function correctly - but there doesn't currently appear to be any non-software way to return the board into the 'lights off' state for me.
+并且, 无论什么时候我关闭单板, 灯仍然亮 - 按下电源键, 仍然是亮的, 或者保持按下很合时长 - 也没有做什么 - 你必须拔掉电源并且重新插入来关闭led灯.重启工作的很好  所以可能电源按钮需要一些附加的正确函数 - 但是当前没有出现任何软件关闭亮着的led灯.
+oh and the board doesn't remain on at all without an SD card inserted - no matter how long you hold the power button, the lights go out. I've not yet setup the board to use eMMC - the instructions say to remove the SD card - perhaps it'll remain on without an SD card in that
+configuration.
+在sd卡插入后单板如果仍然不工作 - 无论多长时间内按住电源键, 灯仍然会关闭. 我没有使用emmc安装单板 -这个说明移除SD卡 - 可能它仍然没有配置没有sd卡的情况.
+
+* hardware interface
+  file:img/BPI-R2%20interface.jpg
+
